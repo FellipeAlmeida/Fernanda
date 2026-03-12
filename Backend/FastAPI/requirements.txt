@@ -1,0 +1,3 @@
+FastAPI
+sqlAlchemy
+uvicorn

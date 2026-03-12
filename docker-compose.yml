@@ -1,0 +1,67 @@
+services:
+  api:
+    container_name: 'Express_api'
+    depends_on: 
+    - db
+    build:
+      context: .
+      dockerfile: Backend/Express/Dockerfile
+    ports: 
+      - '5000:5000'
+    environment:
+        - DATABASE_URL=${DATABASE_URL}
+    networks:
+      - rede_local
+      
+  chatbot:
+    container_name: 'ChatBot'
+    depends_on: 
+    - db
+    build:
+      context: .
+      dockerfile: Backend/FastAPI/Dockerfile
+    ports: 
+      - '3000:3000'
+    environment:
+        - DATABASE_URL=${DATABASE_URL}
+    networks:
+      - rede_local
+
+  db: 
+    container_name: 'Database'
+    image: 'postgres:16-alpine'
+    ports: 
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+        - rede_local
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - rede_local
+
+  # frontend:
+  #   container_name: front
+  #   build:
+  #     context: .
+  #     dockerfile: Frontend/Dockerfile
+  #   ports:
+  #     - "5500:80"
+  #   networks:
+  #     - rede_local
+
+volumes:
+  postgres_data:
+
+networks:
+  rede_local:
+    driver: bridge
