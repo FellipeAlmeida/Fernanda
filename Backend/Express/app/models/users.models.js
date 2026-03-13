@@ -1,5 +1,7 @@
 import { prisma } from '../database/database.js'
 
+// --------------------------------------------------
+
 export async function buscaUsuarioPorEmail(email){
     return await prisma.user.findUnique({
         where: {
@@ -7,6 +9,8 @@ export async function buscaUsuarioPorEmail(email){
         }
     })
 }
+
+// --------------------------------------------------
 
 export async function incrementarTentativas(email) {
     const user = await prisma.user.update({
@@ -20,6 +24,8 @@ export async function incrementarTentativas(email) {
     return user.tentativas_login
 }
 
+// --------------------------------------------------
+
 export async function incrementarBloqueio(email) {
     const user = await prisma.user.update({
         where: { email },
@@ -31,6 +37,8 @@ export async function incrementarBloqueio(email) {
 
     return user.vezes_bloqueado
 }
+
+// --------------------------------------------------
 
 export async function aplicarBloqueio(email, vezesBloqueado) {
     const bloqueioAte = new Date(Date.now() + (30000 * vezesBloqueado))
@@ -47,6 +55,8 @@ export async function aplicarBloqueio(email, vezesBloqueado) {
     return bloqueioEmMinutos
 }
 
+// --------------------------------------------------
+
 export async function resetarTentativas(email) {
     await prisma.user.update({
         where: { email },
@@ -54,5 +64,16 @@ export async function resetarTentativas(email) {
         tempo_bloqueado: null,
         tentativas_login: 0
         }
+    })
+}
+
+// --------------------------------------------------
+
+export async function salvarUsuário(email, senhaHash) {
+    await prisma.user.create({
+        data: {
+            email: email,
+            senha: senhaHash
+        },
     })
 }
