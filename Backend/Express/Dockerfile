@@ -1,6 +1,6 @@
 FROM node:20
 
-WORKDIR /app
+WORKDIR /Express
 
 COPY package*.json ./
 RUN npm install
@@ -8,7 +8,7 @@ RUN npm install
 COPY prisma ./prisma
 RUN npx prisma generate
 
-COPY Backend/Express .
+COPY . .
 
 EXPOSE 5000
 

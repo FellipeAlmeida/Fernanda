@@ -1,4 +1,3 @@
 FastAPI
-sqlAlchemy
 uvicorn
 pydantic
