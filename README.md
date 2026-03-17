@@ -62,17 +62,13 @@ FernandaBot
 git clone <url do repositorio>
 ```
 
-**Passo 2** - Criar .env na raiz do projeto
+**Passo 2** - Criar .env na **raiz do projeto**
 ```
 POSTGRES_USER=admin
 POSTGRES_PASSWORD=12345
 POSTGRES_DB=db
 SECRET_KEY='sua_chave_secreta'
-DATABASE_URL="postgresql://admin:12345@db:5432/db"
-```
-**Passo 3** - Rodar migrations
-```
-npx prisma migrate dev --name init
+DATABASE_URL=postgresql://admin:12345@localhost:5432/db
 ```
 
 **Passo 4** - Comando docker para buildar
