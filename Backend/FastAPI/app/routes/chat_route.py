@@ -1,18 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
-from typing import List
+from app.schemas.chat_schema import ChatRequest
 
 router = APIRouter(
     tags=["01. Chat"]
 )
-
-class MessageHistory(BaseModel):
-    role: str
-    content: str
-
-class ChatRequest(BaseModel):
-    message: str
-    historico: List[MessageHistory]
 
 @router.post("/chat")
 async def chat(request: ChatRequest):

@@ -2,9 +2,9 @@ FROM python:latest
 
 WORKDIR /FastAPI
 
-COPY Backend/FastAPI .
+COPY . .
 
-COPY Backend/FastAPI/requirements.txt .
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 EXPOSE 3000

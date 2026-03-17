@@ -4,12 +4,12 @@ services:
     depends_on: 
     - db
     build:
-      context: .
-      dockerfile: Backend/Express/Dockerfile
+      context: ./Backend/Express
+      dockerfile: Dockerfile
     ports: 
       - '5000:5000'
     environment:
-      - DATABASE_URL=postgresql://admin:12345@db:5432/db
+      - DATABASE_URL=${DATABASE_URL}
     networks:
       - rede_local
     env_file:
@@ -20,12 +20,10 @@ services:
     depends_on: 
     - db
     build:
-      context: .
-      dockerfile: Backend/FastAPI/Dockerfile
+      context: ./Backend/FastAPI
+      dockerfile: Dockerfile
     ports: 
       - '3000:3000'
-    environment:
-        - DATABASE_URL=${DATABASE_URL}
     networks:
       - rede_local
 
@@ -54,7 +52,7 @@ services:
   # frontend:
   #   container_name: front
   #   build:
-  #     context: .
+  #     context: ./Frontend
   #     dockerfile: Frontend/Dockerfile
   #   ports:
   #     - "5500:80"
