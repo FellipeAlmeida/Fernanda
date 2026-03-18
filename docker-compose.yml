@@ -45,7 +45,7 @@ services:
   chatbot:
     container_name: 'ChatBot'
     depends_on: 
-    - db
+    - api
     build:
       context: ./Backend/FastAPI
       dockerfile: Dockerfile

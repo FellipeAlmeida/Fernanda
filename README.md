@@ -42,8 +42,14 @@ FernandaBot
             /components
             /pages
             /services
-        App.jsx
-        main.jsx
+            App.jsx
+            main.jsx
+            index.css
+        Dockerfile
+        index.html
+        package-lock.json
+        package.json
+        vite.config.js
     /prisma
         schema.prisma
     .env-example
