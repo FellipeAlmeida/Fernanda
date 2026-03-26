@@ -1,10 +1,10 @@
-import axios from "axios"
+import api from "../api.js"
 
 export async function login(email, senha){
-    const response = await axios.post("/auth/login", {
+    const response = await api.post("/auth/login", {
         email,
         senha
     })
 
-    return response.data
+    return response.data.data
 }

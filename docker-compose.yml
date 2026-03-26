@@ -71,7 +71,6 @@ services:
       - "5173:5173"
     volumes:
       -  ./Frontend:/src
-      - /src/node_modules
     depends_on:
       - api
     networks:
