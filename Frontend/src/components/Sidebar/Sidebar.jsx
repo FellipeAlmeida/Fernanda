@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getConversations, createConversation } from "../../services/conversationServices.js";
+import "./Sidebar.css"
 
 export default function Sidebar({ setConversationId }) {
   const [conversations, setConversations] = useState([]);
@@ -25,8 +26,8 @@ export default function Sidebar({ setConversationId }) {
   }
 
   return (
-    <div style={{ width: "250px", background: "#111", color: "#fff" }}>
-      <button onClick={handleNewChat}>+ Nova conversa</button>
+    <div class="sidebar">
+      <button onClick={handleNewChat}>Nova conversa</button>
 
       {conversations.map((conv) => (
         <div key={conv.id} onClick={() => setConversationId(conv.id)}>

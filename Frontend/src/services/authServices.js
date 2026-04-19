@@ -6,5 +6,5 @@ export async function login(email, senha){
         senha
     })
 
-    return response.data.data
+    return response.data
 }
