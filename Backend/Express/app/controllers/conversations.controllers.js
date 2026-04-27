@@ -36,7 +36,7 @@ export async function conversationGetController(req, res){
         const id = req.params.id
 
         const conversa = await getConversationService(id)
-        return res.status(201).json({message: "Conversa retornadas com sucesso!", data: conversa})
+        return res.status(200).json({message: "Conversa retornadas com sucesso!", data: conversa})
     } catch (error) {
         console.log(`Erro: ${error}`)
         return res.status(400).json({erro: error.message})

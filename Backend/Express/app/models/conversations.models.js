@@ -20,9 +20,18 @@ export async function listConversation(){
 // -------------------------------------------------------
 
 export async function getConversation(id){
-    return await prisma.message.findUnique({
-        where: {
-            id: id
-        }
-    })
+    try {
+        const mensagens = await prisma.message.findMany({
+            where: {
+                conversationId: id
+            },
+            orderBy: {
+                createdAt: "asc"
+            }
+        });
+
+        return mensagens;
+    } catch (error) {
+        throw error;
+    }
 }

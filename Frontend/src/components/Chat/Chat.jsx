@@ -9,39 +9,45 @@ export default function Chat({ conversationId }) {
   useEffect(() => {
     if (!conversationId) return;
 
+    setMessages([]);
+
     async function load() {
       const data = await getMessages(conversationId);
-      setMessages(data.data);
+      setMessages(data);
     }
 
     load();
   }, [conversationId]);
 
-  async function handleSend() {
-    if (!input.trim() || !conversationId) return;
+async function handleSend() {
+  if (!input.trim() || !conversationId) return;
 
-    const msg = {
-      content: input,
-      role: "user",
-      conversationId,
-    };
+  const msg = {
+    content: input,
+    role: "user",
+    conversationId,
+  };
 
-    setMessages((prev) => [...prev, msg]);
-    setInput("");
+  setMessages((prev) => [...prev, msg]);
+  setInput("");
 
-    const res = await sendMessage(msg);
+  const res = await sendMessage(conversationId, input);
+  console.log(res);
 
-    if (res.botResponse) {
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: res.botResponse },
-      ]);
-    }
+  if (res.reply) {
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "assistant",
+        content: res.reply,
+      },
+    ]);
   }
+}
 
   if (!conversationId) {
     return (
-      <div style={{ flex: 1, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ flex: 1, color: "#000000", display: "flex", alignItems: "center", justifyContent: "center" }}>
         Selecione ou crie uma conversa
       </div>
     );
