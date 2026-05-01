@@ -1,4 +1,5 @@
 import Login from './pages/Login/Login.jsx'
+import ConfirmEmail from './pages/Confirm-email/Confirm-email.jsx'
 import Register from './pages/Register/Register.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
@@ -13,6 +14,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/verifyemail" element={<ConfirmEmail />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<PrivateRoute> <ChatLayout /> </PrivateRoute>} />
       </Routes>

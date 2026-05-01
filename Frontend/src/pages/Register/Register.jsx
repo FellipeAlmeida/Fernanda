@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
 export default function Register() {
+  const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setPassword] = useState("");
 
@@ -12,13 +13,13 @@ export default function Register() {
 
   async function registraConta(){
     try {
-      const data = await register(email, senha)
+      const data = await register(email, senha, nome)
       toast.success("Usuário criado com sucesso!")    
       console.log(data)
 
       setTimeout(() => {
         navigate("/")
-      }, 3000)
+      }, 1000)
 
     } catch (error) {
       toast.error("Usuário falhou.")    
@@ -42,6 +43,12 @@ export default function Register() {
           type="password"
           placeholder="Senha"
           onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <input
+          type="nome"
+          placeholder="Nome"
+          onChange={(e) => setNome(e.target.value)}
         />
 
         <button onClick={registraConta}>Criar conta</button>

@@ -21,7 +21,7 @@ export default function Login() {
 
       setTimeout(() => {
         navigate("/home")
-      }, 3000)
+      }, 1000)
     } catch (error) {
       toast.error("Login falhou.")
       console.log(error.response?.data)

@@ -13,46 +13,29 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
         - rede_local
-
-  migrate:
-    build:
-      context: ./Backend/Express
-    command: sh -c "sleep 5 && npx prisma migrate deploy"
-    depends_on:
-      - db
-    env_file:
-      - .env
-    networks:
-      - rede_local
       
   api:
-    container_name: 'Express_api'
+    container_name: 'api'
     depends_on: 
     - db
-    - migrate
     build:
-      context: ./Backend/Express
+      context: ./Backend
       dockerfile: Dockerfile
     ports: 
       - '5000:5000'
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=${DATABASE_URL_DOCKER}
+      - SECRET_KEY=${SECRET_KEY}
+      - JWT_ALGORITHM=${JWT_ALGORITHM}
     networks:
       - rede_local
     env_file:
       - .env
-      
-  chatbot:
-    container_name: 'ChatBot'
-    depends_on: 
-    - api
-    build:
-      context: ./Backend/FastAPI
-      dockerfile: Dockerfile
-    ports: 
-      - '3000:3000'
-    networks:
-      - rede_local
+    command: >
+      sh -c "
+      alembic upgrade head &&
+      uvicorn app.server:app --host 0.0.0.0 --port ${PORT:-5000}
+      "
 
   adminer:
     container_name: adminer

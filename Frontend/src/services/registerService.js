@@ -1,9 +1,10 @@
 import api from "../api.js"
 
-export async function register(email, senha){
-    const response = await api.post("/auth/register", {
+export async function register(email, senha, nome){
+    const response = await api.post("/usuarios/register", {
         email,
-        senha
+        senha,
+        nome
     })
 
     return response.data.data
