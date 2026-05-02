@@ -4,6 +4,7 @@ from app.database.database import get_db
 from app.schemas.conversation_schema import ConversationCreate, ConversationResponse
 from app.services.conversation_service import create_conversation, get_user_conversations
 from app.middlewares.auth import get_current_user
+from app.services.message_service import get_messages_by_conversation
 
 conversation_router = APIRouter(
     prefix="/conversations", 
@@ -18,5 +19,17 @@ def create(conv: ConversationCreate, db: Session = Depends(get_db), user = Depen
 def list_conversations(db: Session = Depends(get_db), user = Depends(get_current_user)):
     try:
         return get_user_conversations(db, user["id"])
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro interno ao gerar acesso {e}")
+    
+@conversation_router.get("/{id}/messages")
+def get_messages(id: int, db: Session = Depends(get_db)):
+    try: 
+        messages = get_messages_by_conversation(db, id)
+
+        return {
+            "message": "Conversa retornada com sucesso!",
+            "data": messages
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno ao gerar acesso {e}")

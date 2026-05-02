@@ -6,7 +6,7 @@ export async function sendMessage(conversationId, message){
         message
     })
 
-    return response.data
+    return response.data.reply
 }
 
 export async function getMessages(conversationId){

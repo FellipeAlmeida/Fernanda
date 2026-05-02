@@ -7,11 +7,11 @@ export async function createConversation(title){
 
     console.log("RESPONSE:", response.data); // 👈 FAZ ISSO
 
-    return response.data.data
+    return response.data
 }
 
 export async function getConversations(){
     const response = await api.get("/conversations")
 
-    return response.data.data
+    return response.data
 }

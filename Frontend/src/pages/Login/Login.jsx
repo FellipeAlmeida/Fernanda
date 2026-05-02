@@ -17,7 +17,7 @@ export default function Login() {
       toast.success("Login realizado com sucesso!")
       console.log(data)
 
-      localStorage.setItem("token", data.token)
+      localStorage.setItem("token", data.access_token)
 
       setTimeout(() => {
         navigate("/home")

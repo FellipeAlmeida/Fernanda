@@ -7,4 +7,4 @@ class MessageHistory(BaseModel):
 
 class ChatRequest(BaseModel):
     message: str
-    historico: List[MessageHistory]
+    conversation_id: int 

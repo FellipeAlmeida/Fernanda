@@ -1,4 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from app.database.database import get_db
+from app.services.chat_services import chat_service
 from app.schemas.chat_schema import ChatRequest
 
 chat_router = APIRouter(
@@ -6,17 +9,8 @@ chat_router = APIRouter(
 )
 
 @chat_router.post("/chat")
-async def chat(request: ChatRequest):
+async def chat(request: ChatRequest, db: Session = Depends(get_db)):
     try:
-        pergunta = request.message.lower()
-
-        if "oi" in pergunta:
-            resposta = "Olá, meu nome é Fernanda, sou um ChatBot que fala sobre educação fiscal!"
-        else: 
-            resposta = "Ainda estou aprendendo, infelizmente não posso responder a sua dúvida :("
-        
-        return {
-            "reply": resposta
-        }
+        return chat_service(db, request)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno ao gerar acesso {e}")
