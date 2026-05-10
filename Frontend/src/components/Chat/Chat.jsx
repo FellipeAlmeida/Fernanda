@@ -9,45 +9,63 @@ export default function Chat({ conversationId }) {
   useEffect(() => {
     if (!conversationId) return;
 
-    setMessages([]);
-
     async function load() {
-      const data = await getMessages(conversationId);
-      setMessages(data);
+      try {
+        const data = await getMessages(conversationId);
+        setMessages(data);
+      } catch (err) {
+        console.error(err.response?.data || err.message);
+      }
     }
 
     load();
   }, [conversationId]);
 
-async function handleSend() {
-  if (!input.trim() || !conversationId) return;
+  async function handleSend() {
+    if (!input.trim() || !conversationId) return;
 
-  const msg = {
-    content: input,
-    role: "user",
-    conversationId,
-  };
+    const userMessage = {
+      content: input,
+      role: "user",
+      conversationId,
+    };
 
-  setMessages((prev) => [...prev, msg]);
-  setInput("");
+    // adiciona mensagem do usuário na tela
+    setMessages((prev) => [...prev, userMessage]);
 
-  const res = await sendMessage(conversationId, input);
-  console.log(res);
+    const currentInput = input;
+    setInput("");
 
-  if (res.reply) {
-    setMessages((prev) => [
-      ...prev,
-      {
-        role: "assistant",
-        content: res.reply,
-      },
-    ]);
+    try {
+      // resposta do backend
+      const reply = await sendMessage(conversationId, currentInput);
+
+      console.log(reply);
+
+      // adiciona resposta do bot
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: reply,
+        },
+      ]);
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+    }
   }
-}
 
   if (!conversationId) {
     return (
-      <div style={{ flex: 1, color: "#000000", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div
+        style={{
+          flex: 1,
+          color: "#000000",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         Selecione ou crie uma conversa
       </div>
     );
@@ -68,7 +86,13 @@ async function handleSend() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Digite..."
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSend();
+            }
+          }}
         />
+
         <button onClick={handleSend}>Enviar</button>
       </div>
     </div>
