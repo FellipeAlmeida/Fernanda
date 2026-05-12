@@ -57,13 +57,14 @@ export default function Chat({ conversationId }) {
 
   if (!conversationId) {
     return (
-      <div
+      <div className="noConversation"
         style={{
           flex: 1,
-          color: "#000000",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          background: "#0f172a",
+          color:"#e5e7eb",
         }}
       >
         Selecione ou crie uma conversa
