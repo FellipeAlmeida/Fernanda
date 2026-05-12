@@ -1,36 +1,42 @@
 services:
 
-  db: 
-    container_name: 'Database'
-    image: 'postgres:16-alpine'
-    ports: 
-      - '5432:5432'
+  db:
+    container_name: Database
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-        - rede_local
-      
+      - rede_local
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   api:
-    container_name: 'api'
-    depends_on: 
-    - db
+    container_name: api
+    depends_on:
+      db:
+        condition: service_healthy
     build:
       context: ./Backend
       dockerfile: Dockerfile
-    ports: 
-      - '5000:5000'
+    ports:
+      - "5000:5000"
     environment:
-      - DATABASE_URL=${DATABASE_URL_DOCKER}
-      - SECRET_KEY=${SECRET_KEY}
-      - JWT_ALGORITHM=${JWT_ALGORITHM}
-    networks:
-      - rede_local
+      DATABASE_URL: ${DATABASE_URL_DOCKER}
+      SECRET_KEY: ${SECRET_KEY}
+      JWT_ALGORITHM: ${JWT_ALGORITHM}
     env_file:
       - .env
+    networks:
+      - rede_local
     command: >
       sh -c "
       alembic upgrade head &&
@@ -53,7 +59,8 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      -  ./Frontend:/src
+      - ./Frontend:/src
+      - /src/node_modules
     depends_on:
       - api
     networks:

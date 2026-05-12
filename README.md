@@ -50,6 +50,10 @@ FernandaBot
 
 ## Como rodar o Projeto
 
+### Pré-requisitos
+
+Certifique-se de ter o docker e o git instalado.
+
 **Passo 1** - Clonar repo
 ```
 git clone <url do repositorio>
@@ -69,7 +73,7 @@ BASE_URL=http://localhost:5173
 JWT_ALGORITHM=seu_algoritimo
 ```
 
-**Passo 4** - Comando docker para buildar
+**Passo 3** - Comando docker para buildar
 ```
 docker compose up -d --build
 ```
