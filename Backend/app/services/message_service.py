@@ -8,3 +8,16 @@ def get_messages_by_conversation(db: Session, conversation_id: int):
         .order_by(Message.created_at.asc())
         .all()
     )
+
+def create_message(db: Session, conversation_id: int, message: str, role: str):
+    new_message = Message(
+        conversation_id=conversation_id,
+        content=message,
+        role=role
+    )
+
+    db.add(new_message)
+    db.commit()
+    db.refresh(new_message)
+
+    return new_message

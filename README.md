@@ -2,13 +2,15 @@
 
 Projeto de Chatbot sobre educação fiscal. A ideia do projeto é ensinar às pessoas sobre educação fiscal e espalhar conteúdo informativo sobre a fiscalização brasileira.
 
-## Tecnologias
+## Tecnologias e Ferramentas
 
 - **React** - Frontend
 - **FastAPI** - Backend
 - **Docker** - Conteinarização
 - **SQLalchemy** - ORM
 - **PostgreSQL** - Banco de Dados
+- **Colab** - Desenvolvimento da IA
+- **Qwenb 2.5** - Modelo de IA pré-treinado
 
 ## Estrutura do Projeto
 ```
@@ -16,6 +18,9 @@ FernandaBot
     /alembic
     /Backend
         /app
+            /ai
+                chatbot.py
+                inference.py
             /core
             /database
             /middlewares
@@ -70,7 +75,10 @@ DATABASE_URL_DOCKER=postgresql+psycopg2://admin:12345@db:5432/db
 SENDGRID_API_KEY=sua_chave_api
 EMAIL_FROM=seu_email
 BASE_URL=http://localhost:5173
-JWT_ALGORITHM=seu_algoritimo
+JWT_ALGORITHM=HS256
+HF_TOKEN=seu_token
+IA_URL=sua_ia_url
+
 ```
 
 **Passo 3** - Comando docker para buildar
