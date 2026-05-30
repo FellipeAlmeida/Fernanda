@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getMessages, sendMessage } from "../../services/messageServices.js";
 import "./Chat.css";
 
+
 export default function Chat({ conversationId }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -25,7 +26,7 @@ export default function Chat({ conversationId }) {
     if (!input.trim() || !conversationId) return;
 
     const userMessage = {
-      content: input,
+      content: `Você: ${input}`,
       role: "user",
       conversationId,
     };
@@ -47,7 +48,7 @@ export default function Chat({ conversationId }) {
         ...prev,
         {
           role: "assistant",
-          content: reply,
+          content: `  Fernanda: ${reply}`,
         },
       ]);
     } catch (err) {
