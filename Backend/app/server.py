@@ -4,10 +4,18 @@ from app.routes.conversations_route import conversation_router
 from app.routes.user_route import user_router
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+from app.seeds.user_seed import cria_usuario
 
 load_dotenv()  
 
 app = FastAPI()
+
+@app.on_event("startup")
+def startup():
+    try:
+        cria_usuario()
+    except Exception as e:
+        print("erro no seed: ", e)
 
 origins = [
     "http://localhost:5173", 
@@ -21,6 +29,8 @@ app.add_middleware(
     allow_methods=["*"],    
     allow_headers=["*"],    
 )
+
+
 
 app.include_router(chat_router)
 app.include_router(conversation_router)

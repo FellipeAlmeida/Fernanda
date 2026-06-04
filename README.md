@@ -57,15 +57,26 @@ FernandaBot
 
 ### Pré-requisitos
 
-Certifique-se de ter o docker e o git instalado.
+- Docker instalado
+- Git instalado
+- Projeto **Fernanda-IA** rodando (veja o README da IA)
 
 **Passo 1** - Clonar repo
 ```
 git clone <url do repositorio>
+cd Fernanda-Interface
+```
+### Passo 2 - Criar rede Docker compartilhada
+
+> Só é necessário fazer isso **uma vez** na máquina. Se a rede já existir, pule este passo.
+
+```bash
+docker network create fernanda-network
 ```
 
-**Passo 2** - Criar .env na **raiz do projeto**
-```
+### Passo 3 - Criar o arquivo `.env` na raiz do projeto
+
+```env
 POSTGRES_USER=admin
 POSTGRES_PASSWORD=12345
 POSTGRES_DB=db
@@ -76,15 +87,22 @@ SENDGRID_API_KEY=sua_chave_api
 EMAIL_FROM=seu_email
 BASE_URL=http://localhost:5173
 JWT_ALGORITHM=HS256
-HF_TOKEN=seu_token
-IA_URL=sua_ia_url
-
+IA_URL=http://fernanda-ai:8000
 ```
 
-**Passo 3** - Comando docker para buildar
-```
+### Passo 4 - Subir os containers
+
+```bash
 docker compose up -d --build
 ```
+
+### Passo 5 - Verificar se está rodando
+
+```bash
+docker ps
+```
+
+Os containers `Database`, `api`, `front` e `adminer` devem estar com status `Up`.
 
 ## Arquitetura
 
@@ -97,6 +115,7 @@ docker compose up -d --build
 - models -> Modelos do banco (Classes)
 - database -> Conexão com o banco
 - schemas -> Definição da entrada e saida de dados e suas tipagens
+- ai -> definição e criação do chatbot/modelo de IA
 
 ### Frontend
 - assets -> imagens, logos, fontes..

@@ -13,6 +13,9 @@ def generate_response(prompt: str):
         timeout=120
     )
 
+    print("STATUS:", response.status_code)
+    print("BODY:", response.text) 
+
     data = response.json()
 
     return data["final_response"]
