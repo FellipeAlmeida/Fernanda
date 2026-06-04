@@ -10,7 +10,7 @@ Projeto de Chatbot sobre educação fiscal. A ideia do projeto é ensinar às pe
 - **SQLalchemy** - ORM
 - **PostgreSQL** - Banco de Dados
 - **Colab** - Desenvolvimento da IA
-- **Qwenb 2.5** - Modelo de IA pré-treinado
+- **Ollama (Llama 3.1 8B)** - Modelo de IA pré-treinado
 
 ## Estrutura do Projeto
 ```
@@ -50,7 +50,6 @@ FernandaBot
     .gitignore
     docker-compose.yml
     README.md
-
 ```
 
 ## Como rodar o Projeto
@@ -64,7 +63,7 @@ FernandaBot
 **Passo 1** - Clonar repo
 ```
 git clone <url do repositorio>
-cd Fernanda-Interface
+cd Fernanda
 ```
 ### Passo 2 - Criar rede Docker compartilhada
 
