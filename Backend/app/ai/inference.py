@@ -6,7 +6,7 @@ IA_URL = os.getenv("IA_URL")
 def generate_response(prompt: str):
 
     response = requests.post(
-        IA_URL,
+        f"{IA_URL}/chat",
         json={
             "message": prompt
         },
@@ -15,4 +15,4 @@ def generate_response(prompt: str):
 
     data = response.json()
 
-    return data["response"]
+    return data["final_response"]
