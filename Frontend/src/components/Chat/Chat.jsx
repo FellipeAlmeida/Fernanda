@@ -6,6 +6,7 @@ import "./Chat.css";
 export default function Chat({ conversationId }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!conversationId) return;
@@ -23,10 +24,10 @@ export default function Chat({ conversationId }) {
   }, [conversationId]);
 
   async function handleSend() {
-    if (!input.trim() || !conversationId) return;
+    if (!input.trim() || !conversationId || loading) return; // -> nao deixa enviar se input for vazio, se nenhuma conversa for selecionada e se loading = true
 
     const userMessage = {
-      content: `Você: ${input}`,
+      content: `${input}`,
       role: "user",
       conversationId,
     };
@@ -36,6 +37,8 @@ export default function Chat({ conversationId }) {
 
     const currentInput = input;
     setInput("");
+
+    setLoading(true)
 
     try {
       // resposta do backend
@@ -48,11 +51,14 @@ export default function Chat({ conversationId }) {
         ...prev,
         {
           role: "assistant",
-          content: `  Fernanda: ${reply}`,
+          content: reply,
         },
       ]);
     } catch (err) {
       console.error(err.response?.data || err.message);
+    } finally {
+      // executa em sucesso e erro (evita carregar pra sempre)
+      setLoading(false)
     }
   }
 
@@ -81,6 +87,17 @@ export default function Chat({ conversationId }) {
             {msg.content}
           </div>
         ))}
+
+        {loading && ( // -> loading true, renderiza esse html
+          <div className="message assistant">
+            <div className="typing">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>  
+        )}
+
       </div>
 
       <div className="input-area">
@@ -95,7 +112,7 @@ export default function Chat({ conversationId }) {
           }}
         />
 
-        <button onClick={handleSend}>Enviar</button>
+        <button onClick={handleSend} disabled={loading}>Enviar</button>
       </div>
     </div>
   );
