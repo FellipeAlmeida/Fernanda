@@ -3,9 +3,12 @@ uvicorn
 pydantic
 alembic
 python-dotenv
-psycopg2
+psycopg2-binary
 python-jose
 pydantic[email]
 werkzeug
 sendgrid
 requests
+sqlalchemy
+resend
+dotenv
