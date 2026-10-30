@@ -28,8 +28,6 @@ jobs:
 
             git pull origin main
 
-            echo "📦 Gerando arquivo .env..."
-
             echo "🧹 Parando containers antigos..."
             docker compose down
 
